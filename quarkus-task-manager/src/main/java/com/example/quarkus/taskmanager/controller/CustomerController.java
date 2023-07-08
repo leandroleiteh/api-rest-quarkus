@@ -88,4 +88,11 @@ public class CustomerController {
         customerService.deleteCustomerById(id);
 
     }
+
+    @PUT
+    @Transactional
+    @Path("/{id}")
+    public void updateCustomer(@PathParam("id") UUID id){
+        return customerService.customerUpdate();
+    }
 }
