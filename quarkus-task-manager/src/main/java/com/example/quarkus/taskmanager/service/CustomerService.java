@@ -26,23 +26,30 @@ public class CustomerService {
 
     }
 
-    public Optional <Customer> getOneCustomer(UUID id) {
+    public Optional<Customer> getOneCustomer(UUID id) {
         return Optional.ofNullable(customerRepository.findById(id));
 
     }
 
     @Transactional
     public boolean deleteCustomerById(UUID id) {
-        var customer = customerRepository.findById(id);
         return customerRepository.deleteById(id);
     }
-
 
     public boolean existsByEmail(String email) {
         return customerRepository.findByEmail(email);
     }
 
-    public Customer customerUpdate() {
-       return customerRepository.update(Customer customer);
+    @Transactional
+    public void customerUpdate(UUID id, Customer customer) {
+        Optional<Customer> optionalCustomer = customerRepository.findByIdOptional(id);
+        Customer existingCustomer = optionalCustomer.get();
+        existingCustomer.setName(customer.getName());
+        existingCustomer.setLastName(customer.getLastName());
+        existingCustomer.setAge(customer.getAge());
+        existingCustomer.setEmail(customer.getEmail());
+        customerRepository.persist(existingCustomer);
+
+
     }
 }

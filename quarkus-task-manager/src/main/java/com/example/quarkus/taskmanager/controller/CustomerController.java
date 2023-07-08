@@ -8,12 +8,11 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Path(value = "/customer")
+@Path(value = "/customers")
 public class CustomerController {
 
     @Inject
@@ -33,7 +32,7 @@ public class CustomerController {
         } catch (RuntimeException e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Erro ao obter a lista de clientes")
+                    .entity("Erro ao obter a lista de clientes. Detalhes: " + e.getMessage())
                     .build();
         }
     }
@@ -56,7 +55,7 @@ public class CustomerController {
         } catch (RuntimeException e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("ERRO: Ocorreu um erro durante a adição do cliente. Por favor, tente novamente mais tarde.")
+                    .entity("ERRO: Ocorreu um erro durante a adição do cliente. Por favor, tente novamente mais tarde. Detalhes: " + e.getMessage())
                     .build();
         }
     }
@@ -66,16 +65,17 @@ public class CustomerController {
     public Response customerGetId(@PathParam("id") UUID id) {
         try {
             Optional<Customer> optionalCustomer = customerService.getOneCustomer(id);
-            if (!optionalCustomer.isPresent()) {
+            if (optionalCustomer.isPresent()) {
+                return Response.ok(optionalCustomer.get()).build();
+            } else {
                 return Response.status(Response.Status.NOT_FOUND)
                         .entity("ERRO: Cliente não existe")
                         .build();
             }
-            return Response.ok(optionalCustomer.get()).build();
         } catch (RuntimeException e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("ERRO: Ocorreu um erro durante a busca do cliente")
+                    .entity("ERRO: Ocorreu um erro durante a busca do cliente. Detalhes: " + e.getMessage())
                     .build();
         }
     }
@@ -84,15 +84,46 @@ public class CustomerController {
     @DELETE
     @Transactional
     @Path("/{id}")
-    public void deleteCustomer(@PathParam("id") UUID id) {
-        customerService.deleteCustomerById(id);
+    public Response deleteCustomer(@PathParam("id") UUID id) {
+        try {
+            Optional<Customer> optionalCustomer = customerService.getOneCustomer(id);
+            if (optionalCustomer.isPresent()) {
+                customerService.deleteCustomerById(id);
+                return Response.noContent().build();
+            } else {
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("ERRO: Cliente não existe")
+                        .build();
+            }
+        } catch (RuntimeException e) {
+            e.printStackTrace();
 
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("ERRO: Ocorreu um erro durante a exclusão do cliente. Por favor, tente novamente mais tarde. Detalhes: " + e.getMessage())
+                    .build();
+        }
     }
 
     @PUT
     @Transactional
     @Path("/{id}")
-    public void updateCustomer(@PathParam("id") UUID id){
-        return customerService.customerUpdate();
+    public Response updateCustomer(@PathParam("id") UUID id, Customer customer) {
+        try {
+            Optional<Customer> customerOptional = customerService.getOneCustomer(id);
+            if (customerOptional.isPresent()) {
+                customerService.customerUpdate(id, customer);
+                return Response.noContent().build();
+            } else {
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("ERRO: Cliente não existe")
+                        .build();
+            }
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("ERRO: Ocorreu um erro durante a atualização do cliente. Por favor, tente novamente mais tarde. Detalhes: " + e.getMessage())
+                    .build();
+        }
     }
 }
