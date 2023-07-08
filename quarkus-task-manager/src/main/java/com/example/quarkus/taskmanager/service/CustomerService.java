@@ -42,14 +42,13 @@ public class CustomerService {
 
     @Transactional
     public void customerUpdate(UUID id, Customer customer) {
-        Optional<Customer> optionalCustomer = customerRepository.findByIdOptional(id);
-        Customer existingCustomer = optionalCustomer.get();
+        Customer existingCustomer = customerRepository.findByIdOptional(id)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
         existingCustomer.setName(customer.getName());
         existingCustomer.setLastName(customer.getLastName());
         existingCustomer.setAge(customer.getAge());
         existingCustomer.setEmail(customer.getEmail());
         customerRepository.persist(existingCustomer);
-
-
     }
 }
