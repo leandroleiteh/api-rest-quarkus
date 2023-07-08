@@ -1,76 +1,53 @@
-# quarkus-task-manager
+# Quarkus Task Manager
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+O Quarkus Task Manager é um projeto de exemplo que demonstra a criação de uma API RESTful de gerenciamento de clientes utilizando o framework Quarkus.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
-## Running the application in dev mode
+## Instalação
 
-You can run your application in dev mode that enables live coding using:
+1. Clone o repositório para o seu ambiente local:
 
-```shell script
-./mvnw compile quarkus:dev
-```
+https://github.com/leandroleiteh/APIREST-quarkus.git
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
 
-## Packaging and running the application
+2. Acesse o diretório do projeto:
 
-The application can be packaged using:
+cd quarkus-task-manager
 
-```shell script
-./mvnw package
-```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+3. Execute o aplicativo em modo de desenvolvimento:
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+mvn quarkus:dev
 
-If you want to build an _über-jar_, execute the following command:
 
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+## Uso
 
-## Creating a native executable
+O Quarkus Task Manager fornece endpoints REST para criar, atualizar, listar e excluir clientes. A API possui os seguintes endpoints:
 
-You can create a native executable using:
+- `GET /customers`: Retorna todos os clientes cadastrados.
+- `POST /customers`: Cria um novo cliente.
+- `PUT /customers/{id}`: Atualiza um cliente existente pelo ID.
+- `DELETE /customers/{id}`: Exclui um cliente pelo ID.
 
-```shell script
-./mvnw package -Pnative
-```
+## Tecnologias utilizadas
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+- Quarkus - framework Java nativo para a nuvem.
+- RESTEasy - framework para criação de APIs RESTful.
+- Hibernate ORM - mapeamento objeto-relacional para persistência de dados.
+- H2 Database - banco de dados em memória para desenvolvimento e teste.
+- Maven - gerenciamento de dependências e build do projeto.
 
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
+## Contribuição
 
-You can then execute your native executable with: `./target/quarkus-task-manager-1.0-SNAPSHOT-runner`
+Contribuições são bem-vindas! Sinta-se à vontade para abrir um pull request com melhorias, correções de bugs ou novas funcionalidades.
 
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
+## Autores
 
-## Related Guides
+- [Leandro Leite](https://github.com/leandroleiteh)
 
-- JDBC Driver - H2 ([guide](https://quarkus.io/guides/datasource)): Connect to the H2 database via JDBC
-- Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplify your persistence code
-  for Hibernate ORM via the active record or the repository pattern
+## Licença
 
-## Provided Code
+Este projeto é licenciado sob a [Licença MIT](LICENSE).
 
-### Hibernate ORM
 
-Create your first JPA entity
-
-[Related guide section...](https://quarkus.io/guides/hibernate-orm)
-
-[Related Hibernate with Panache section...](https://quarkus.io/guides/hibernate-orm-panache)
-
-### RESTEasy Reactive
-
-Easily start your Reactive RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
