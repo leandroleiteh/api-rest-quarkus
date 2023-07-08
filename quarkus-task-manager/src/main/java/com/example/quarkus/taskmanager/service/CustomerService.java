@@ -41,4 +41,8 @@ public class CustomerService {
     public boolean existsByEmail(String email) {
         return customerRepository.findByEmail(email);
     }
+
+    public Customer customerUpdate() {
+       return customerRepository.update(Customer customer);
+    }
 }
