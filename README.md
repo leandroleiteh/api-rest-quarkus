@@ -5,19 +5,19 @@ O Quarkus Task Manager é um projeto de exemplo que demonstra a criação de uma
 
 ## Instalação
 
-1. Clone o repositório para o seu ambiente local:
+# 1. Clone o repositório para o seu ambiente local:
 
-https://github.com/leandroleiteh/APIREST-quarkus.git
-
-
-2. Acesse o diretório do projeto:
-
-cd quarkus-task-manager
+  https://github.com/leandroleiteh/APIREST-quarkus.git
 
 
-3. Execute o aplicativo em modo de desenvolvimento:
+# 2. Acesse o diretório do projeto:
 
-mvn quarkus:dev
+  cd quarkus-task-manager
+
+
+# 3. Execute o aplicativo em modo de desenvolvimento:
+
+  mvn quarkus:dev
 
 
 
